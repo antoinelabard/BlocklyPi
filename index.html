@@ -326,6 +326,42 @@
         <block type="allbots-shift_motor_position"></block>
         <block type="allbots-reset_position"></block>
     </category>
+    
+    <category id="bras" name="Bras">
+        <block type="move"></block>
+        <block type="fingers"></block>
+        <block type="rotation_moteur">
+            <value name="angle">
+                <block type="math_number">
+                    <field name="NUM">90</field>
+                </block></block>
+               
+    
+        <block type="incremente_moteur">
+            <value name="angle">
+                <block type="math_number">
+                    <field name="NUM">15</field>
+            </block></block>
+                
+        
+        <block type="led_on"></block>
+        
+        <block type="tourner_moteur">
+            <value name="angle">
+                <block type="math_number">
+                    <field name="NUM">15</field>
+            </block></block>
+            
+        <block type="led_clignote">
+            <value name="rep">
+                <block type="math_number">
+                    <field name="NUM">15</field>
+            </block></block>
+           
+        <block type="bouton"></block>   
+        
+    </category>
+    <sep></sep>
 
 </xml>
 

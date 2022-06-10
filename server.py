@@ -1,6 +1,6 @@
 from http.server import SimpleHTTPRequestHandler
 from xmlrpc.server import SimpleXMLRPCRequestHandler, SimpleXMLRPCServer
-from robot import francasterController, allbotsController
+from robot import francasterController, allbotsController, armController
 
 
 def register_robot_xmlrpc_methods(server: SimpleXMLRPCServer):
@@ -19,6 +19,18 @@ def register_robot_xmlrpc_methods(server: SimpleXMLRPCServer):
     server.register_function(allbotsController.reset_position, 'allbots-reset_position')
     server.register_function(allbotsController.set_motor_position, 'allbots-set_motor_position')
     server.register_function(allbotsController.shift_motor_position, 'allbots-shift_motor_position')
+    
+    server.register_function(armController.plus, 'armController.plus')    
+    server.register_function(armController.moins, 'armController.moins')
+    server.register_function(armController.tourne, 'armController.tourne')
+    server.register_function(armController.position, 'armController.position')
+    
+    server.register_function(armController.led_on, 'armController.led_on')    
+    server.register_function(armController.led_off, 'armController.led_off')
+    server.register_function(armController.led_clignote, 'armController.led_clignote')
+    server.register_function(armController.bouton, 'armController.excute')
+
+
 
 
 # We define a custom server request handler, capable of both handling GET and XML-RPC requests.
