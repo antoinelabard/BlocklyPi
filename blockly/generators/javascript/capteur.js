@@ -1,30 +1,30 @@
 Blockly.JavaScript['move'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  return 'runPiRobotCommand("allbotsController.marcher")';
+  return 'runPiRobotCommand("sensorController.marcher")';
 };
 
 Blockly.JavaScript['fingers'] = function(block) {
   var dropdown_doigt = block.getFieldValue('doigt');
   switch(dropdown_doigt) {
   case '1':
-    code = 'runPiRobotCommand("allbotsController.un")';
+    code = 'runPiRobotCommand("sensorController.un")';
     break;
   case '2':
-    code = 'runPiRobotCommand("allbotsController.deux")';
+    code = 'runPiRobotCommand("sensorController.deux")';
     break;
   case '3':
-	code = 'runPiRobotCommand("allbotsController.trois")';
+	code = 'runPiRobotCommand("sensorController.trois")';
 	break;
   
   case '4':
-	code = 'runPiRobotCommand("allbotsController.quatre")';
+	code = 'runPiRobotCommand("sensorController.quatre")';
 	break;
   
   case '5':
-	code = 'runPiRobotCommand("allbotsController.cinq")';
+	code = 'runPiRobotCommand("sensorController.cinq")';
     break;
   default:
-    code = 'runPiRobotCommand("allbotsController.marcher")';
+    code = 'runPiRobotCommand("sensorController.marcher")';
 }
   return code;
 };
@@ -33,7 +33,7 @@ Blockly.JavaScript['fingers'] = function(block) {
 Blockly.JavaScript['rotation_moteur'] = function(block) {
   var dropdown_moteur = block.getFieldValue('moteur');
   var value_angle = Blockly.JavaScript.valueToCode(block, 'angle', Blockly.JavaScript.ORDER_ATOMIC);
-  var code = 'runPiRobotCommand("allbotsController.position","' + dropdown_moteur + '",' + value_angle + ');';
+  var code = 'runPiRobotCommand("sensorController.position","' + dropdown_moteur + '",' + value_angle + ');';
   return code;
 };
 
@@ -42,10 +42,10 @@ Blockly.JavaScript['incremente_moteur'] = function(block) {
   var dropdown_choix = block.getFieldValue('choix');
   var value_angle = Blockly.JavaScript.valueToCode(block, 'angle', Blockly.JavaScript.ORDER_ATOMIC);
   if(dropdown_choix == "incremente"){
-    var code = 'runPiRobotCommand("allbotsController.plus","' + dropdown_moteur + '",' + value_angle + ');';
+    var code = 'runPiRobotCommand("sensorController.plus","' + dropdown_moteur + '",' + value_angle + ');';
   }
   else{
-    var code = 'runPiRobotCommand("allbotsController.moins","' + dropdown_moteur + '",' + value_angle + ');';
+    var code = 'runPiRobotCommand("sensorController.moins","' + dropdown_moteur + '",' + value_angle + ');';
   }
   
   return code;
@@ -58,10 +58,10 @@ Blockly.JavaScript['led_on'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
   switch(dropdown_etat) {
   case '1':
-    code = 'runPiRobotCommand("allbotsController.led_on")';
+    code = 'runPiRobotCommand("sensorController.led_on")';
     break;
   case '2':
-    code = 'runPiRobotCommand("allbotsController.led_off")';
+    code = 'runPiRobotCommand("sensorController.led_off")';
     break;
   }
   return code;
@@ -71,7 +71,7 @@ Blockly.JavaScript['tourner_moteur'] = function(block) {
   var dropdown_moteur = block.getFieldValue('moteur');
   var value_angle = Blockly.JavaScript.valueToCode(block, 'angle', Blockly.JavaScript.ORDER_ATOMIC);
   
-  var code = 'runPiRobotCommand("allbotsController.tourne","' + dropdown_moteur + '",' + value_angle + ');';
+  var code = 'runPiRobotCommand("sensorController.tourne","' + dropdown_moteur + '",' + value_angle + ');';
   
   return code;
 };
@@ -80,13 +80,25 @@ Blockly.JavaScript['led_clignote'] = function(block) {
   var value_rep = Blockly.JavaScript.valueToCode(block, 'rep', Blockly.JavaScript.ORDER_ATOMIC);
   var dropdown_temps = block.getFieldValue('temps');
   // TODO: Assemble JavaScript into code variable.
-  var code = 'runPiRobotCommand("allbotsController.led_clignote","' + value_rep + '",' + dropdown_temps + ');';
+  var code = 'runPiRobotCommand("sensorController.led_clignote","' + value_rep + '",' + dropdown_temps + ');';
   return code;
 };
 
 
 Blockly.JavaScript['bouton'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'runPiRobotCommand("allbotsController.excute")';
+  var code = 'runPiRobotCommand("sensorController.excute")';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
+
+
+Blockly.JavaScript['repos'] = function(block) {
+  var dropdown_temps = block.getFieldValue('temps');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'runPiRobotCommand("sensorController.repos","' + dropdown_temps + ');';
+  return code;
+};
+
+
+
+

@@ -123,3 +123,19 @@ Blockly.Blocks['bouton'] = {
  this.setHelpUrl("");
   }
 };
+
+Blockly.Blocks['repos'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("repos de : ")
+        .appendField(new Blockly.FieldDropdown([["0.1","a"], ["0.2","b"], ["0.5","c"], ["1","d"], ["2","e"]]), "temps")
+        .appendField("seconde(s)");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+

@@ -1,6 +1,6 @@
 from http.server import SimpleHTTPRequestHandler
 from xmlrpc.server import SimpleXMLRPCRequestHandler, SimpleXMLRPCServer
-from robot import francasterController, allbotsController, armController
+from robot import francasterController, allbotsController, sensorController
 
 
 def register_robot_xmlrpc_methods(server: SimpleXMLRPCServer):
@@ -20,17 +20,17 @@ def register_robot_xmlrpc_methods(server: SimpleXMLRPCServer):
     server.register_function(allbotsController.set_motor_position, 'allbots-set_motor_position')
     server.register_function(allbotsController.shift_motor_position, 'allbots-shift_motor_position')
     
-    server.register_function(armController.plus, 'armController.plus')    
-    server.register_function(armController.moins, 'armController.moins')
-    server.register_function(armController.tourne, 'armController.tourne')
-    server.register_function(armController.position, 'armController.position')
+    server.register_function(sensorController.plus, 'sensorController.plus')    
+    server.register_function(sensorController.moins, 'sensorController.moins')
+    server.register_function(sensorController.tourne, 'sensorController.tourne')
+    server.register_function(sensorController.position, 'sensorController.position')
     
-    server.register_function(armController.led_on, 'armController.led_on')    
-    server.register_function(armController.led_off, 'armController.led_off')
-    server.register_function(armController.led_clignote, 'armController.led_clignote')
-    server.register_function(armController.bouton, 'armController.excute')
-
-
+    server.register_function(sensorController.led_on, 'sensorController.led_on')    
+    server.register_function(sensorController.led_off, 'sensorController.led_off')
+    server.register_function(sensorController.led_clignote, 'sensorController.led_clignote')
+    server.register_function(sensorController.bouton, 'sensorController.excute')
+    
+    server.register_function(sensorController.repos, 'sensorController.repos')
 
 
 # We define a custom server request handler, capable of both handling GET and XML-RPC requests.
@@ -43,7 +43,8 @@ class RequestHandler(SimpleXMLRPCRequestHandler, SimpleHTTPRequestHandler):
 
 if __name__ == "__main__":
     # Create our XML-RPC server.using out custom request handler that is also able to serve web pages over GET.
-    port = 8080
+    port = 8084
+    
     server = SimpleXMLRPCServer(("", port), RequestHandler, allow_none=True)
 
     # Register standard XML-RPC methods.
