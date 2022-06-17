@@ -206,3 +206,13 @@ def move_forward():
     MOTORS["BACK_LEFT_ELBOW"].set_motor_position(20)
     time.sleep(0.1)
     reset_position()
+
+
+def _move_forward_left():
+    reset_position()
+    MOTORS["FRONT_LEFT_ELBOW"].set_motor_position(120)
+    MOTORS["BACK_RIGHT_ELBOW"].set_motor_position(0)
+    time.sleep(.1)
+    MOTORS["FRONT_RIGHT_SHOULDER"].set_motor_position(50)
+    MOTORS["BACK_LEFT_SHOULDER"].set_motor_position()
+    reset_position()
