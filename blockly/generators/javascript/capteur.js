@@ -1,33 +1,3 @@
-Blockly.JavaScript['move'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
-  return 'runPiRobotCommand("sensorController.marcher")';
-};
-
-Blockly.JavaScript['fingers'] = function(block) {
-  var dropdown_doigt = block.getFieldValue('doigt');
-  switch(dropdown_doigt) {
-  case '1':
-    code = 'runPiRobotCommand("sensorController.un")';
-    break;
-  case '2':
-    code = 'runPiRobotCommand("sensorController.deux")';
-    break;
-  case '3':
-	code = 'runPiRobotCommand("sensorController.trois")';
-	break;
-  
-  case '4':
-	code = 'runPiRobotCommand("sensorController.quatre")';
-	break;
-  
-  case '5':
-	code = 'runPiRobotCommand("sensorController.cinq")';
-    break;
-  default:
-    code = 'runPiRobotCommand("sensorController.marcher")';
-}
-  return code;
-};
 
 
 Blockly.JavaScript['rotation_moteur'] = function(block) {
@@ -87,7 +57,7 @@ Blockly.JavaScript['led_clignote'] = function(block) {
 
 Blockly.JavaScript['bouton'] = function(block) {
   // TODO: Assemble JavaScript into code variable.
-  var code = 'runPiRobotCommand("sensorController.excute")';
+  var code = 'runPiRobotCommand("sensorController.bouton")';
   return [code, Blockly.JavaScript.ORDER_NONE];
 };
 
@@ -100,5 +70,18 @@ Blockly.JavaScript['repos'] = function(block) {
 };
 
 
+Blockly.JavaScript['distance'] = function(block) {
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'runPiRobotCommand("sensorController.distance")';
+  return code;
+};
+
+
+Blockly.JavaScript['moteur_avec_potentiometre'] = function(block) {
+  var dropdown_moteur = block.getFieldValue('moteur');
+  // TODO: Assemble JavaScript into code variable.
+  var code = 'runPiRobotCommand("sensorController.moteur_potentiometre","' + dropdown_moteur + ');';
+  return code;
+};
 
 

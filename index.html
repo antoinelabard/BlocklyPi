@@ -34,7 +34,9 @@
     <script src="blockly/generators/javascript/allbots.js"></script>
     <script src="blockly/blocks/capteur.js"></script>
     <script src="blockly/generators/javascript/capteur.js"></script>
-
+    <script src="blockly/blocks/bras.js"></script>
+    <script src="blockly/generators/javascript/bras.js"></script>
+    
     <!-- Bootstrap core CSS -->
     <link href="./css/lib/bootstrap.min.css" rel="stylesheet">
 
@@ -329,9 +331,15 @@
         <block type="allbots-reset_position"></block>
     </category>
     
-    <category id="capteur" name="Capteur">
+    <category id="bras" name="Bras">
+        
         <block type="move"></block>
         <block type="fingers"></block>
+        <block type="main_control"></block>
+    </category>
+        
+    <category id="capteur" name="Capteur">
+        
         <block type="rotation_moteur">
             <value name="angle">
                 <block type="math_number">
@@ -359,7 +367,9 @@
                 <block type="math_number">
                     <field name="NUM">15</field>
             </block></block>
-           
+        
+        <block type="moteur_avec_potentiometre"></block> 
+        <block type="distance"></block> 
         <block type="bouton"></block> 
         <block type="repos"></block>  
         

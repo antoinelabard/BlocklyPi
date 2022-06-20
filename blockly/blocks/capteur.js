@@ -1,29 +1,4 @@
-Blockly.Blocks['move'] = {
-  init: function() {
-    this.appendDummyInput()
-        .setAlign(Blockly.ALIGN_CENTRE)
-        .appendField("Bouger la main");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(160);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
 
-
-Blockly.Blocks['fingers'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("choisit un chiffre")
-        .appendField(new Blockly.FieldDropdown([["1","1"], ["2","2"], ["3","3"], ["4","4"], ["5","5"]]), "doigt");
-    this.setPreviousStatement(true, null);
-    this.setNextStatement(true, null);
-    this.setColour(160);
- this.setTooltip("");
- this.setHelpUrl("");
-  }
-};
 
 
 Blockly.Blocks['rotation_moteur'] = {
@@ -68,7 +43,7 @@ Blockly.Blocks['led_on'] = {
         .appendField(new Blockly.FieldDropdown([["On","1"], ["Off","2"]]), "etat");
     this.setPreviousStatement(true, null);
     this.setNextStatement(true, null);
-    this.setColour(230);
+    this.setColour(160);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -118,7 +93,7 @@ Blockly.Blocks['bouton'] = {
     this.appendDummyInput()
         .appendField("bouton");
     this.setOutput(true, null);
-    this.setColour(230);
+    this.setColour(160);
  this.setTooltip("");
  this.setHelpUrl("");
   }
@@ -137,5 +112,35 @@ Blockly.Blocks['repos'] = {
  this.setHelpUrl("");
   }
 };
+
+
+
+Blockly.Blocks['distance'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("distance");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
+
+Blockly.Blocks['moteur_avec_potentiometre'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Tourner le moteur :")
+        .appendField(new Blockly.FieldDropdown([["0","a"], ["1","b"], ["2","c"], ["3","d"], ["4","e"], ["5","f"], ["6","g"], ["7","h"], ["8","i"], ["9","j"], ["10","k"], ["11","l"], ["12","m"], ["13","n"], ["14","o"], ["15","p"]]), "moteur")
+        .appendField(" avec le potentiometre");
+    this.setPreviousStatement(true, null);
+    this.setNextStatement(true, null);
+    this.setColour(160);
+ this.setTooltip("");
+ this.setHelpUrl("");
+  }
+};
+
 
 

@@ -1,6 +1,7 @@
 ################ Imports #################################
 from time import *
 from robot.robotMotor import RobotMotor
+#from robotMotor import RobotMotor
 import RPi.GPIO as GPIO
 
 
@@ -9,7 +10,7 @@ led_pin = 23
 bouton_pin = 24
 
 etat_l = 0
-
+ 
 GPIO.setmode(GPIO.BCM)
 
 # Definition des pins en entree / sortie
@@ -87,7 +88,7 @@ def moteur_detect(moteur):
 
 def plus(moteur, angle:int):  #tourne de 0 a 180 degres +20 +20 en apuiant sur le bouton pousoire
     moteur = moteur_detect(moteur)
-    #si egal 0 c'est apuier si non non 
+    #si egal 0 c'est apuier si 1 non appuier 
     while (moteur.servo_kit.servo[moteur.id].angle != 180):
         etat = GPIO.input(bouton_pin)
         
@@ -196,7 +197,7 @@ def led_clignote_bouton(rep,temps):  #clignoter la led avec un interval de temps
 
 #########################  bouton   ####################################
 
-
+'''
 def bouton():
     etat = GPIO.input(bouton_pin)
     a = False
@@ -206,11 +207,15 @@ def bouton():
         
     if(etat == 0):
         a = True
-    return a
-    
-def excute():
-    b = bouton()
-    return b
+    return a    '''
+def bouton():
+    etat = GPIO.input(bouton_pin)
+    if (etat == 1) :
+        a = False    
+    else :
+        a = True
+    return a     
+
     
 ########################################################################
 ##############  sleep  ##################################
@@ -218,14 +223,114 @@ def excute():
 def repos(temps):
     if (temps == 'a'):
         temps = 0.1
+        sleep(temps)
     elif (temps == 'b'):
         temps = 0.2
+        sleep(temps)
     elif (temps == 'c'):
         temps = 0.5
+        sleep(temps)
     elif (temps == 'd'):
         temps = 1
+        sleep(temps)
     elif (temps == 'e'):
         temps = 2
-    sleep(temps)
-
+        sleep(temps)
     
+
+#while True:
+#    RobotMotor.set_motor_position(d, 0)
+#    sleep(1)
+#    RobotMotor.set_motor_position(d, 180)
+#    sleep(1)
+
+
+
+#################################################################################################"
+######################## convertisseur analogique/numerique   et potensiometre ##########################
+
+
+import board   #importer les moduls necessaires
+import busio
+#import time
+
+i2c = busio.I2C(board.SCL, board.SDA)  #initialiser le bus i2c
+
+import adafruit_ads1x15.ads1115 as ADS #importer le module pour la carte ads1115
+
+from adafruit_ads1x15.analog_in import AnalogIn
+
+#creer l'objet ads
+ads = ADS.ADS1115(i2c)
+
+#creer le canal d'entrer du signal analogique
+chan = AnalogIn(ads, ADS.P0)  #mode asymetrique
+#print(chan.value, chan.voltage)
+
+chan2 = AnalogIn(ads, ADS.P0, ADS.P1)   #mode differentiel
+#print(chan1.value ,chan1.voltage)
+    
+    
+def pourcentage_potentiometre():
+    val_max = 32767  #la valeur max lu par l'ADC
+    
+    pourcentage_de_tenssion = chan.value * 100 / val_max  #calculer le pourcentage de la tension reduite par le potentiometre
+    
+    print(pourcentage_de_tenssion)
+    return(pourcentage_de_tenssion)
+
+#potensiometre()
+
+###### mettre le moteur le moteur a la position indiquer par le potentiometre#####
+
+def moteur_potentiometre(moteur):
+    moteur = moteur_detect(moteur)
+    x = pourcentage_potentiometre() * 180 / 100   #l'angle calculer a partire du pourcetange du potentiometre
+    
+    RobotMotor.set_motor_position(moteur, x)
+    sleep(0.2)
+
+
+'''while True:
+    moteur_potentiometre('a')
+    sleep(0.2)'''
+
+
+#################################################ultara son ###################"""
+
+
+
+Trig = 27          # Entree Trig du HC-SR04 branchee au GPIO 23
+Echo = 22         # Sortie Echo du HC-SR04 branchee au GPIO 24
+
+GPIO.setup(Trig,GPIO.OUT)
+GPIO.setup(Echo,GPIO.IN)
+
+GPIO.output(Trig, False)
+
+
+#repet = int (input("Entrez un nombre de repetitions de mesure : "))
+
+#for x in range(repet):    # On prend la mesure "repet" fois
+
+#sleep(1)       # On la prend toute les 1 seconde
+
+def distance():
+    GPIO.output(Trig, True)
+    sleep(0.00001)
+    GPIO.output(Trig, False)
+
+    while GPIO.input(Echo)==0:  ## Emission de l'ultrason
+     debutImpulsion = time()
+
+    while GPIO.input(Echo)==1:   ## Retour de l'Echo
+     finImpulsion = time()
+
+    distance = round((finImpulsion - debutImpulsion) * 340 * 100 / 2, 1)  ## Vitesse du son = 340 m/s  #arndi a 1 chiffre apres la virgule
+
+    print ("La distance est de : ",distance," cm")
+
+    GPIO.cleanup()
+
+
+
