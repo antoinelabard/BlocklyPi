@@ -1,5 +1,4 @@
 Blockly.JavaScript['move'] = function(block) {
-  // TODO: Assemble JavaScript into code variable.
   return 'runPiRobotCommand("armController.main")';
 };
 
@@ -32,7 +31,6 @@ Blockly.JavaScript['fingers'] = function(block) {
 
 Blockly.JavaScript['main_control'] = function(block) {
   var dropdown_choix = block.getFieldValue('choix');
-  // TODO: Assemble JavaScript into code variable.
   switch(dropdown_choix) {
   case 'fermer':
     code = 'runPiRobotCommand("armController.position")';
