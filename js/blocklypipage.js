@@ -53,11 +53,6 @@ BlocklyPiPage.prototype.stopBlocklyWorkspace = function () {
     // of the current script (if it's currently executing).
     this._executingScript = false;
 
-    // Reset the robot.
-    // Just stopping it is enough for now ...
-    this.runPiRobotCommand("setRobotMotorPower","RIGHT",0);
-    this.runPiRobotCommand("setRobotMotorPower","LEFT",0);
-
     // Remove all previously registered listeners from an older run.
     this.removeAllEventListeners();
 
@@ -68,13 +63,13 @@ BlocklyPiPage.prototype.stopBlocklyWorkspace = function () {
  * Start running the blugly script in the passed interpreter.
  *
  * @param interpreter The JS-interpreter holding the Blockly script to be
- * 			executed.
+ *            executed.
  */
 BlocklyPiPage.prototype.runBlocklyScript = function (interpreter) {
 
     // Set the last executed mode to "RUN"
     this._lastExecutedMode = "RUN";
-    
+
     // Start executing.
     interpreter.run();
 
@@ -83,12 +78,12 @@ BlocklyPiPage.prototype.runBlocklyScript = function (interpreter) {
 /**
  *
  * @param interpreter The JS-interpreter holding the Blockly script to be
- * 			executed.
+ *            executed.
  */
 BlocklyPiPage.prototype.debugBlocklyScript = function (interpreter) {
 
     var self = this;
-    
+
     // Function to recursively step through the code ...
     var nextStep = function () {
         if (interpreter.step()) {
@@ -158,9 +153,9 @@ BlocklyPiPage.prototype.initApi = function (interpreter, scope) {
 
     // Add an API function for setting the power of the robot motors.
     var runPiRobotCommandWrapper = function () {
-        
+
         // Convert the arguments to normal JS primitives ...
-        for (var i=0; i < arguments.length; i++) {
+        for (var i = 0; i < arguments.length; i++) {
             if (arguments[i].type === "string") {
                 arguments[i] = arguments[i].toString();
             } else if (arguments[i].type === "number") {
@@ -204,7 +199,7 @@ BlocklyPiPage.prototype.highlightBlock = function (id) {
  * The first argument is the name of the method to call on the Pi.
  * All the other arguments are the parameters of that method.
  *
- * e.g.: runPiRobotCommand("setRobotMotorPower","LEFT", 80);
+ * e.g.: runPiRobotCommand("francaster-set_motor_position","LEFT", 80);
  *
  * Keep in mind that this method does not return the result of the XML-RPC method. If this
  * is necessary, use @see BlocklyPiPage.prototype.returnPiRobotCommandResult.
@@ -212,7 +207,7 @@ BlocklyPiPage.prototype.highlightBlock = function (id) {
 BlocklyPiPage.prototype.runPiRobotCommand = function () {
 
     var self = this;
-    
+
     // Convert arguments to an array.
     var args = Array.prototype.slice.call(arguments);
 
@@ -229,6 +224,7 @@ BlocklyPiPage.prototype.runPiRobotCommand = function () {
             // Do nothing, interested? Use returnPiRobotCommandResult.
         },
         error: function (jqXHR, status, error) {
+            console.log(`jqXHR: ${jqXHR}\nstatus: ${status}\nerror: ${error}`)
             self.displayErrorMsg(error);
         }
     });
@@ -249,7 +245,7 @@ BlocklyPiPage.prototype.runPiRobotCommand = function () {
 BlocklyPiPage.prototype.returnPiRobotCommandResult = function () {
 
     var self = this;
-    
+
     // Convert arguments to an array.
     var args = Array.prototype.slice.call(arguments);
 
@@ -293,10 +289,10 @@ BlocklyPiPage.prototype.returnPiRobotCommandResult = function () {
  * add the whole event object to the interpreter's sandbox.)
  *
  * @param id The id of the block that wants to register the event listener (we only allow one
- * 		event listener for every block).
+ *        event listener for every block).
  * @param type The type of key event listener to register (can be either "keyup" or "keydown").
  * @param callbackCode The code to run in an interpreter when the event get's executed (can only
- * 		make use of global "keyCode" and "charCode" variables).
+ *        make use of global "keyCode" and "charCode" variables).
  */
 BlocklyPiPage.prototype.addKeyEventListenerForBlock = function (id, type, callbackCode) {
 
@@ -322,7 +318,7 @@ BlocklyPiPage.prototype.addKeyEventListenerForBlock = function (id, type, callba
 
         // Init a new interpreter for this.
         interpreter = new Interpreter(callbackCode, newApitInt.bind(self));
-        
+
         // Check whether the last ran execution mode was "DEBUG".
         if (self._lastExecutedMode === "DEBUG") {
             // Last ran execution mode was "DEBUG", run the same.
@@ -331,7 +327,7 @@ BlocklyPiPage.prototype.addKeyEventListenerForBlock = function (id, type, callba
             // Run in normal mode.
             self.runBlocklyScript(interpreter);
         }
-        
+
     }
 
     // Change color of the block to indicate that listener has been set. 
@@ -370,10 +366,10 @@ BlocklyPiPage.prototype.removeAllEventListeners = function () {
 
 /**
  * Display an error message on the page.
- * 
+ *
  * @msg The message to display.
  */
-BlocklyPiPage.prototype.displayErrorMsg = function(msg) {
+BlocklyPiPage.prototype.displayErrorMsg = function (msg) {
     $("#errorMessage").text(msg);
     $("#errorMsgContainer").show();
 }

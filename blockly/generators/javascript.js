@@ -107,28 +107,28 @@ Blockly.JavaScript.ORDER_NONE = 99;          // (...)
  * Initialise the database of variable names.
  * @param {!Blockly.Workspace} workspace Workspace to generate code from.
  */
-Blockly.JavaScript.init = function(workspace) {
-  // Create a dictionary of definitions to be printed before the code.
-  Blockly.JavaScript.definitions_ = Object.create(null);
-  // Create a dictionary mapping desired function names in definitions_
-  // to actual function names (to avoid collisions with user functions).
-  Blockly.JavaScript.functionNames_ = Object.create(null);
+Blockly.JavaScript.init = function (workspace) {
+    // Create a dictionary of definitions to be printed before the code.
+    Blockly.JavaScript.definitions_ = Object.create(null);
+    // Create a dictionary mapping desired function names in definitions_
+    // to actual function names (to avoid collisions with user functions).
+    Blockly.JavaScript.functionNames_ = Object.create(null);
 
-  if (!Blockly.JavaScript.variableDB_) {
-    Blockly.JavaScript.variableDB_ =
-        new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
-  } else {
-    Blockly.JavaScript.variableDB_.reset();
-  }
+    if (!Blockly.JavaScript.variableDB_) {
+        Blockly.JavaScript.variableDB_ =
+            new Blockly.Names(Blockly.JavaScript.RESERVED_WORDS_);
+    } else {
+        Blockly.JavaScript.variableDB_.reset();
+    }
 
-  var defvars = [];
-  var variables = Blockly.Variables.allVariables(workspace);
-  for (var x = 0; x < variables.length; x++) {
-    defvars[x] = 'var ' +
-        Blockly.JavaScript.variableDB_.getName(variables[x],
-        Blockly.Variables.NAME_TYPE) + ';';
-  }
-  Blockly.JavaScript.definitions_['variables'] = defvars.join('\n');
+    var defvars = [];
+    var variables = Blockly.Variables.allVariables(workspace);
+    for (var x = 0; x < variables.length; x++) {
+        defvars[x] = 'var ' +
+            Blockly.JavaScript.variableDB_.getName(variables[x],
+                Blockly.Variables.NAME_TYPE) + ';';
+    }
+    Blockly.JavaScript.definitions_['variables'] = defvars.join('\n');
 };
 
 /**
@@ -136,13 +136,13 @@ Blockly.JavaScript.init = function(workspace) {
  * @param {string} code Generated code.
  * @return {string} Completed code.
  */
-Blockly.JavaScript.finish = function(code) {
-  // Convert the definitions dictionary into a list.
-  var definitions = [];
-  for (var name in Blockly.JavaScript.definitions_) {
-    definitions.push(Blockly.JavaScript.definitions_[name]);
-  }
-  return definitions.join('\n\n') + '\n\n\n' + code;
+Blockly.JavaScript.finish = function (code) {
+    // Convert the definitions dictionary into a list.
+    var definitions = [];
+    for (var name in Blockly.JavaScript.definitions_) {
+        definitions.push(Blockly.JavaScript.definitions_[name]);
+    }
+    return definitions.join('\n\n') + '\n\n\n' + code;
 };
 
 /**
@@ -151,8 +151,8 @@ Blockly.JavaScript.finish = function(code) {
  * @param {string} line Line of generated code.
  * @return {string} Legal line of code.
  */
-Blockly.JavaScript.scrubNakedValue = function(line) {
-  return line + ';\n';
+Blockly.JavaScript.scrubNakedValue = function (line) {
+    return line + ';\n';
 };
 
 /**
@@ -162,12 +162,12 @@ Blockly.JavaScript.scrubNakedValue = function(line) {
  * @return {string} JavaScript string.
  * @private
  */
-Blockly.JavaScript.quote_ = function(string) {
-  // TODO: This is a quick hack.  Replace with goog.string.quote
-  string = string.replace(/\\/g, '\\\\')
-                 .replace(/\n/g, '\\\n')
-                 .replace(/'/g, '\\\'');
-  return '\'' + string + '\'';
+Blockly.JavaScript.quote_ = function (string) {
+    // TODO: This is a quick hack.  Replace with goog.string.quote
+    string = string.replace(/\\/g, '\\\\')
+        .replace(/\n/g, '\\\n')
+        .replace(/'/g, '\\\'');
+    return '\'' + string + '\'';
 };
 
 /**
@@ -179,30 +179,30 @@ Blockly.JavaScript.quote_ = function(string) {
  * @return {string} JavaScript code with comments and subsequent blocks added.
  * @private
  */
-Blockly.JavaScript.scrub_ = function(block, code) {
-  var commentCode = '';
-  // Only collect comments for blocks that aren't inline.
-  if (!block.outputConnection || !block.outputConnection.targetConnection) {
-    // Collect comment for this block.
-    var comment = block.getCommentText();
-    if (comment) {
-      commentCode += Blockly.JavaScript.prefixLines(comment, '// ') + '\n';
-    }
-    // Collect comments for all value arguments.
-    // Don't collect comments for nested statements.
-    for (var x = 0; x < block.inputList.length; x++) {
-      if (block.inputList[x].type == Blockly.INPUT_VALUE) {
-        var childBlock = block.inputList[x].connection.targetBlock();
-        if (childBlock) {
-          var comment = Blockly.JavaScript.allNestedComments(childBlock);
-          if (comment) {
-            commentCode += Blockly.JavaScript.prefixLines(comment, '// ');
-          }
+Blockly.JavaScript.scrub_ = function (block, code) {
+    var commentCode = '';
+    // Only collect comments for blocks that aren't inline.
+    if (!block.outputConnection || !block.outputConnection.targetConnection) {
+        // Collect comment for this block.
+        var comment = block.getCommentText();
+        if (comment) {
+            commentCode += Blockly.JavaScript.prefixLines(comment, '// ') + '\n';
         }
-      }
+        // Collect comments for all value arguments.
+        // Don't collect comments for nested statements.
+        for (var x = 0; x < block.inputList.length; x++) {
+            if (block.inputList[x].type == Blockly.INPUT_VALUE) {
+                var childBlock = block.inputList[x].connection.targetBlock();
+                if (childBlock) {
+                    var comment = Blockly.JavaScript.allNestedComments(childBlock);
+                    if (comment) {
+                        commentCode += Blockly.JavaScript.prefixLines(comment, '// ');
+                    }
+                }
+            }
+        }
     }
-  }
-  var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
-  var nextCode = Blockly.JavaScript.blockToCode(nextBlock);
-  return commentCode + code + nextCode;
+    var nextBlock = block.nextConnection && block.nextConnection.targetBlock();
+    var nextCode = Blockly.JavaScript.blockToCode(nextBlock);
+    return commentCode + code + nextCode;
 };

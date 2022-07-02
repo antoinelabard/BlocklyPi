@@ -35,14 +35,14 @@ goog.require('goog.math');
  * @param {Object} opt_options Dictionary of options.
  * @constructor
  */
-Blockly.Workspace = function(opt_options) {
-  /**
-   * @type {!Array.<!Blockly.Block>}
-   * @private
-   */
-  this.topBlocks_ = [];
-  this.options = opt_options || {};
-  this.RTL = !!this.options.RTL;
+Blockly.Workspace = function (opt_options) {
+    /**
+     * @type {!Array.<!Blockly.Block>}
+     * @private
+     */
+    this.topBlocks_ = [];
+    this.options = opt_options || {};
+    this.RTL = !!this.options.RTL;
 };
 
 /**
@@ -55,8 +55,8 @@ Blockly.Workspace.prototype.rendered = false;
  * Dispose of this workspace.
  * Unlink from all DOM elements to prevent memory leaks.
  */
-Blockly.Workspace.prototype.dispose = function() {
-  this.clear();
+Blockly.Workspace.prototype.dispose = function () {
+    this.clear();
 };
 
 /**
@@ -71,28 +71,28 @@ Blockly.Workspace.SCAN_ANGLE = 3;
  * Add a block to the list of top blocks.
  * @param {!Blockly.Block} block Block to remove.
  */
-Blockly.Workspace.prototype.addTopBlock = function(block) {
-  this.topBlocks_.push(block);
-  this.fireChangeEvent();
+Blockly.Workspace.prototype.addTopBlock = function (block) {
+    this.topBlocks_.push(block);
+    this.fireChangeEvent();
 };
 
 /**
  * Remove a block from the list of top blocks.
  * @param {!Blockly.Block} block Block to remove.
  */
-Blockly.Workspace.prototype.removeTopBlock = function(block) {
-  var found = false;
-  for (var child, i = 0; child = this.topBlocks_[i]; i++) {
-    if (child == block) {
-      this.topBlocks_.splice(i, 1);
-      found = true;
-      break;
+Blockly.Workspace.prototype.removeTopBlock = function (block) {
+    var found = false;
+    for (var child, i = 0; child = this.topBlocks_[i]; i++) {
+        if (child == block) {
+            this.topBlocks_.splice(i, 1);
+            found = true;
+            break;
+        }
     }
-  }
-  if (!found) {
-    throw 'Block not present in workspace\'s list of top-most blocks.';
-  }
-  this.fireChangeEvent();
+    if (!found) {
+        throw 'Block not present in workspace\'s list of top-most blocks.';
+    }
+    this.fireChangeEvent();
 };
 
 /**
@@ -101,42 +101,42 @@ Blockly.Workspace.prototype.removeTopBlock = function(block) {
  * @param {boolean} ordered Sort the list if true.
  * @return {!Array.<!Blockly.Block>} The top-level block objects.
  */
-Blockly.Workspace.prototype.getTopBlocks = function(ordered) {
-  // Copy the topBlocks_ list.
-  var blocks = [].concat(this.topBlocks_);
-  if (ordered && blocks.length > 1) {
-    var offset = Math.sin(goog.math.toRadians(Blockly.Workspace.SCAN_ANGLE));
-    if (this.RTL) {
-      offset *= -1;
+Blockly.Workspace.prototype.getTopBlocks = function (ordered) {
+    // Copy the topBlocks_ list.
+    var blocks = [].concat(this.topBlocks_);
+    if (ordered && blocks.length > 1) {
+        var offset = Math.sin(goog.math.toRadians(Blockly.Workspace.SCAN_ANGLE));
+        if (this.RTL) {
+            offset *= -1;
+        }
+        blocks.sort(function (a, b) {
+            var aXY = a.getRelativeToSurfaceXY();
+            var bXY = b.getRelativeToSurfaceXY();
+            return (aXY.y + offset * aXY.x) - (bXY.y + offset * bXY.x);
+        });
     }
-    blocks.sort(function(a, b) {
-      var aXY = a.getRelativeToSurfaceXY();
-      var bXY = b.getRelativeToSurfaceXY();
-      return (aXY.y + offset * aXY.x) - (bXY.y + offset * bXY.x);
-    });
-  }
-  return blocks;
+    return blocks;
 };
 
 /**
  * Find all blocks in workspace.  No particular order.
  * @return {!Array.<!Blockly.Block>} Array of blocks.
  */
-Blockly.Workspace.prototype.getAllBlocks = function() {
-  var blocks = this.getTopBlocks(false);
-  for (var i = 0; i < blocks.length; i++) {
-    blocks.push.apply(blocks, blocks[i].getChildren());
-  }
-  return blocks;
+Blockly.Workspace.prototype.getAllBlocks = function () {
+    var blocks = this.getTopBlocks(false);
+    for (var i = 0; i < blocks.length; i++) {
+        blocks.push.apply(blocks, blocks[i].getChildren());
+    }
+    return blocks;
 };
 
 /**
  * Dispose of all blocks in workspace.
  */
-Blockly.Workspace.prototype.clear = function() {
-  while (this.topBlocks_.length) {
-    this.topBlocks_[0].dispose();
-  }
+Blockly.Workspace.prototype.clear = function () {
+    while (this.topBlocks_.length) {
+        this.topBlocks_[0].dispose();
+    }
 };
 
 /**
@@ -145,8 +145,8 @@ Blockly.Workspace.prototype.clear = function() {
  * Not relevant for a headless workspace.
  * @return {number} Width.
  */
-Blockly.Workspace.prototype.getWidth = function() {
-  return 0;
+Blockly.Workspace.prototype.getWidth = function () {
+    return 0;
 };
 
 /**
@@ -154,15 +154,15 @@ Blockly.Workspace.prototype.getWidth = function() {
  * @param {string} id ID of block to find.
  * @return {Blockly.Block} The matching block, or null if not found.
  */
-Blockly.Workspace.prototype.getBlockById = function(id) {
-  // If this O(n) function fails to scale well, maintain a hash table of IDs.
-  var blocks = this.getAllBlocks();
-  for (var i = 0, block; block = blocks[i]; i++) {
-    if (block.id == id) {
-      return block;
+Blockly.Workspace.prototype.getBlockById = function (id) {
+    // If this O(n) function fails to scale well, maintain a hash table of IDs.
+    var blocks = this.getAllBlocks();
+    for (var i = 0, block; block = blocks[i]; i++) {
+        if (block.id == id) {
+            return block;
+        }
     }
-  }
-  return null;
+    return null;
 };
 
 /**
@@ -170,49 +170,49 @@ Blockly.Workspace.prototype.getBlockById = function(id) {
  *     the maxBlocks.
  * @return {number} Number of blocks left.
  */
-Blockly.Workspace.prototype.remainingCapacity = function() {
-  if (isNaN(this.options.maxBlocks)) {
-    return Infinity;
-  }
-  return this.options.maxBlocks - this.getAllBlocks().length;
+Blockly.Workspace.prototype.remainingCapacity = function () {
+    if (isNaN(this.options.maxBlocks)) {
+        return Infinity;
+    }
+    return this.options.maxBlocks - this.getAllBlocks().length;
 };
 
 /**
  * Something on this workspace has changed.
  */
-Blockly.Workspace.prototype.fireChangeEvent = function() {
-  // NOP.
+Blockly.Workspace.prototype.fireChangeEvent = function () {
+    // NOP.
 };
 
 /**
  * Modify the block tree on the existing toolbox.
  * @param {Node|string} tree DOM tree of blocks, or text representation of same.
  */
-Blockly.Workspace.prototype.updateToolbox = function(tree) {
-  tree = Blockly.parseToolboxTree_(tree);
-  if (!tree) {
-    if (this.options.languageTree) {
-      throw 'Can\'t nullify an existing toolbox.';
+Blockly.Workspace.prototype.updateToolbox = function (tree) {
+    tree = Blockly.parseToolboxTree_(tree);
+    if (!tree) {
+        if (this.options.languageTree) {
+            throw 'Can\'t nullify an existing toolbox.';
+        }
+        // No change (null to null).
+        return;
     }
-    // No change (null to null).
-    return;
-  }
-  if (!this.options.languageTree) {
-    throw 'Existing toolbox is null.  Can\'t create new toolbox.';
-  }
-  if (this.options.hasCategories) {
-    if (!this.toolbox_) {
-      throw 'Existing toolbox has no categories.  Can\'t change mode.';
+    if (!this.options.languageTree) {
+        throw 'Existing toolbox is null.  Can\'t create new toolbox.';
     }
-    this.options.languageTree = tree;
-    this.toolbox_.populate_(tree);
-  } else {
-    if (!this.flyout_) {
-      throw 'Existing toolbox has categories.  Can\'t change mode.';
+    if (this.options.hasCategories) {
+        if (!this.toolbox_) {
+            throw 'Existing toolbox has no categories.  Can\'t change mode.';
+        }
+        this.options.languageTree = tree;
+        this.toolbox_.populate_(tree);
+    } else {
+        if (!this.flyout_) {
+            throw 'Existing toolbox has categories.  Can\'t change mode.';
+        }
+        this.options.languageTree = tree;
+        this.flyout_.show(tree.childNodes);
     }
-    this.options.languageTree = tree;
-    this.flyout_.show(tree.childNodes);
-  }
 };
 
 // Export symbols that would otherwise be renamed by Closure compiler.

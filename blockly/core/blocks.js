@@ -43,13 +43,13 @@ Blockly.Blocks.uidCounter_ = 0;
  * whether we are in single user or realtime collaborative mode.
  * @return {string}
  */
-Blockly.Blocks.genUid = function() {
-  var uid = (++Blockly.Blocks.uidCounter_).toString();
-  if (Blockly.Realtime.isEnabled()) {
-    return Blockly.Realtime.genUid(uid);
-  } else {
-    return uid;
-  }
+Blockly.Blocks.genUid = function () {
+    var uid = (++Blockly.Blocks.uidCounter_).toString();
+    if (Blockly.Realtime.isEnabled()) {
+        return Blockly.Realtime.genUid(uid);
+    } else {
+        return uid;
+    }
 };
 
 /**
@@ -109,95 +109,95 @@ Blockly.Blocks.genUid = function() {
  *     - customContextMenuFunc {Function} TODO desc.
  *     Additional fields will be ignored.
  */
-Blockly.Blocks.addTemplate = function(details) {
-  // Validate inputs.  TODO: Add more.
-  goog.asserts.assert(details.blockName);
-  goog.asserts.assert(Blockly.Blocks[details.blockName],
-      'Blockly.Blocks already has a field named ', details.blockName);
-  goog.asserts.assert(details.message);
-  goog.asserts.assert(details.colour && typeof details.colour == 'number' &&
-      details.colour >= 0 && details.colour < 360,
-     'details.colour must be a number from 0 to 360 (exclusive)');
-  if (details.output != 'undefined') {
-    goog.asserts.assert(!details.previousStatement,
-        'When details.output is defined, ' +
-        'details.previousStatement must not be true.');
-    goog.asserts.assert(!details.nextStatement,
-        'When details.output is defined, ' +
-        'details.nextStatement must not be true.');
-  }
-
-  var block = {};
-  /**
-   * Build up template.
-   * @this Blockly.Block
-   */
-  block.init = function() {
-    var thisBlock = this;
-    // Set basic properties of block.
-    this.setColour(details.colour);
-    this.setHelpUrl(details.helpUrl);
-    if (typeof details.tooltip == 'string') {
-      this.setTooltip(details.tooltip);
-    } else if (typeof details.tooltip == 'function') {
-      this.setTooltip(function() {
-        return details.tooltip(thisBlock);
-      });
-    }
-    // Set output and previous/next connections.
+Blockly.Blocks.addTemplate = function (details) {
+    // Validate inputs.  TODO: Add more.
+    goog.asserts.assert(details.blockName);
+    goog.asserts.assert(Blockly.Blocks[details.blockName],
+        'Blockly.Blocks already has a field named ', details.blockName);
+    goog.asserts.assert(details.message);
+    goog.asserts.assert(details.colour && typeof details.colour == 'number' &&
+        details.colour >= 0 && details.colour < 360,
+        'details.colour must be a number from 0 to 360 (exclusive)');
     if (details.output != 'undefined') {
-      this.setOutput(true, details.output);
-    } else {
-      this.setPreviousStatement(
-          typeof details.previousStatement == 'undefined' ?
-              true : details.previousStatement);
-      this.setNextStatement(
-          typeof details.nextStatement == 'undefined' ?
-              true : details.nextStatement);
+        goog.asserts.assert(!details.previousStatement,
+            'When details.output is defined, ' +
+            'details.previousStatement must not be true.');
+        goog.asserts.assert(!details.nextStatement,
+            'When details.output is defined, ' +
+            'details.nextStatement must not be true.');
     }
-    // Build up arguments in the format expected by interpolateMsg.
-    var interpArgs = [];
-    interpArgs.push(details.text);
-    if (details.args) {
-      details.args.forEach(function(arg) {
-        goog.asserts.assert(arg.name);
-        goog.asserts.assert(arg.check != 'undefined');
-        if (arg.type == 'undefined' || arg.type == Blockly.INPUT_VALUE) {
-          interpArgs.push([arg.name,
-                           arg.check,
-                           typeof arg.align == 'undefined' ?
-                               Blockly.ALIGN_RIGHT : arg.align]);
-        } else {
-          // TODO: Write code for other input types.
-          goog.asserts.fail('addTemplate() can only handle value inputs.');
-        }
-      });
-    }
-    // Neil, how would you recommend specifying the final dummy alignment?
-    // Should it be a top-level field in details?
-    interpArgs.push(Blockly.ALIGN_RIGHT);
-    if (details.inline) {
-      this.setInlineInputs(details.inline);
-    }
-    Blockly.Block.prototype.interpolateMsg.apply(this, interpArgs);
-  };
 
-  if (details.switchable) {
+    var block = {};
     /**
-     * Create mutationToDom if needed.
+     * Build up template.
      * @this Blockly.Block
      */
-    block.mutationToDom = function() {
-      var container = details.mutationToDomFunc ?
-          details.mutatationToDomFunc() : document.createElement('mutation');
-      container.setAttribute('is_statement', this['isStatement'] || false);
-      return container;
+    block.init = function () {
+        var thisBlock = this;
+        // Set basic properties of block.
+        this.setColour(details.colour);
+        this.setHelpUrl(details.helpUrl);
+        if (typeof details.tooltip == 'string') {
+            this.setTooltip(details.tooltip);
+        } else if (typeof details.tooltip == 'function') {
+            this.setTooltip(function () {
+                return details.tooltip(thisBlock);
+            });
+        }
+        // Set output and previous/next connections.
+        if (details.output != 'undefined') {
+            this.setOutput(true, details.output);
+        } else {
+            this.setPreviousStatement(
+                typeof details.previousStatement == 'undefined' ?
+                    true : details.previousStatement);
+            this.setNextStatement(
+                typeof details.nextStatement == 'undefined' ?
+                    true : details.nextStatement);
+        }
+        // Build up arguments in the format expected by interpolateMsg.
+        var interpArgs = [];
+        interpArgs.push(details.text);
+        if (details.args) {
+            details.args.forEach(function (arg) {
+                goog.asserts.assert(arg.name);
+                goog.asserts.assert(arg.check != 'undefined');
+                if (arg.type == 'undefined' || arg.type == Blockly.INPUT_VALUE) {
+                    interpArgs.push([arg.name,
+                        arg.check,
+                        typeof arg.align == 'undefined' ?
+                            Blockly.ALIGN_RIGHT : arg.align]);
+                } else {
+                    // TODO: Write code for other input types.
+                    goog.asserts.fail('addTemplate() can only handle value inputs.');
+                }
+            });
+        }
+        // Neil, how would you recommend specifying the final dummy alignment?
+        // Should it be a top-level field in details?
+        interpArgs.push(Blockly.ALIGN_RIGHT);
+        if (details.inline) {
+            this.setInlineInputs(details.inline);
+        }
+        Blockly.Block.prototype.interpolateMsg.apply(this, interpArgs);
     };
-  } else {
-    block.mutationToDom = details.mutationToDomFunc;
-  }
-  // TODO: Add domToMutation and customContextMenu.
 
-  // Add new block to Blockly.Blocks.
-  Blockly.Blocks[details.blockName] = block;
+    if (details.switchable) {
+        /**
+         * Create mutationToDom if needed.
+         * @this Blockly.Block
+         */
+        block.mutationToDom = function () {
+            var container = details.mutationToDomFunc ?
+                details.mutatationToDomFunc() : document.createElement('mutation');
+            container.setAttribute('is_statement', this['isStatement'] || false);
+            return container;
+        };
+    } else {
+        block.mutationToDom = details.mutationToDomFunc;
+    }
+    // TODO: Add domToMutation and customContextMenu.
+
+    // Add new block to Blockly.Blocks.
+    Blockly.Blocks[details.blockName] = block;
 };

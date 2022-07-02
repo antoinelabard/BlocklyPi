@@ -38,10 +38,10 @@ goog.require('goog.math.Size');
  * @extends {Blockly.Field}
  * @constructor
  */
-Blockly.FieldLabel = function(text) {
-  this.sourceBlock_ = null;
-  this.size_ = new goog.math.Size(0, 25);
-  this.setText(text);
+Blockly.FieldLabel = function (text) {
+    this.sourceBlock_ = null;
+    this.size_ = new goog.math.Size(0, 25);
+    this.setText(text);
 };
 goog.inherits(Blockly.FieldLabel, Blockly.Field);
 
@@ -50,8 +50,8 @@ goog.inherits(Blockly.FieldLabel, Blockly.Field);
  * @return {!Blockly.FieldLabel} The result of calling the constructor again
  *   with the current values of the arguments used during construction.
  */
-Blockly.FieldLabel.prototype.clone = function() {
-  return new Blockly.FieldLabel(this.getText());
+Blockly.FieldLabel.prototype.clone = function () {
+    return new Blockly.FieldLabel(this.getText());
 };
 
 /**
@@ -63,34 +63,34 @@ Blockly.FieldLabel.prototype.EDITABLE = false;
  * Install this text on a block.
  * @param {!Blockly.Block} block The block containing this text.
  */
-Blockly.FieldLabel.prototype.init = function(block) {
-  if (this.sourceBlock_) {
-    // Text has already been initialized once.
-    return;
-  }
-  this.sourceBlock_ = block;
+Blockly.FieldLabel.prototype.init = function (block) {
+    if (this.sourceBlock_) {
+        // Text has already been initialized once.
+        return;
+    }
+    this.sourceBlock_ = block;
 
-  // Build the DOM.
-  this.textElement_ = Blockly.createSvgElement('text',
-      {'class': 'blocklyText'}, null);
-  if (!this.visible_) {
-    this.textElement_.style.display = 'none';
-  }
-  block.getSvgRoot().appendChild(this.textElement_);
+    // Build the DOM.
+    this.textElement_ = Blockly.createSvgElement('text',
+        {'class': 'blocklyText'}, null);
+    if (!this.visible_) {
+        this.textElement_.style.display = 'none';
+    }
+    block.getSvgRoot().appendChild(this.textElement_);
 
-  // Configure the field to be transparent with respect to tooltips.
-  this.textElement_.tooltip = this.sourceBlock_;
-  Blockly.Tooltip.bindMouseEvents(this.textElement_);
-  // Force a render.
-  this.updateTextNode_();
+    // Configure the field to be transparent with respect to tooltips.
+    this.textElement_.tooltip = this.sourceBlock_;
+    Blockly.Tooltip.bindMouseEvents(this.textElement_);
+    // Force a render.
+    this.updateTextNode_();
 };
 
 /**
  * Dispose of all DOM objects belonging to this text.
  */
-Blockly.FieldLabel.prototype.dispose = function() {
-  goog.dom.removeNode(this.textElement_);
-  this.textElement_ = null;
+Blockly.FieldLabel.prototype.dispose = function () {
+    goog.dom.removeNode(this.textElement_);
+    this.textElement_ = null;
 };
 
 /**
@@ -98,8 +98,8 @@ Blockly.FieldLabel.prototype.dispose = function() {
  * Used for measuring the size and for positioning.
  * @return {!Element} The group element.
  */
-Blockly.FieldLabel.prototype.getSvgRoot = function() {
-  return /** @type {!Element} */ (this.textElement_);
+Blockly.FieldLabel.prototype.getSvgRoot = function () {
+    return /** @type {!Element} */ (this.textElement_);
 };
 
 /**
@@ -107,6 +107,6 @@ Blockly.FieldLabel.prototype.getSvgRoot = function() {
  * @param {string|!Element} newTip Text for tooltip or a parent element to
  *     link to for its tooltip.
  */
-Blockly.FieldLabel.prototype.setTooltip = function(newTip) {
-  this.textElement_.tooltip = newTip;
+Blockly.FieldLabel.prototype.setTooltip = function (newTip) {
+    this.textElement_.tooltip = newTip;
 };
